@@ -15,3 +15,18 @@ body{background:var(--paper)}.wrap{padding-left:40px;padding-right:40px}.header{
 /* Final optical adjustments. */
 .v-outline{-webkit-text-stroke:0;color:#8e997d}.v-cta h2 span{-webkit-text-stroke:0;color:#4c6529}.v-tech-art img{height:auto}.v-stage-label{background:#f6f9ecd9;backdrop-filter:blur(12px);padding:11px 15px;border:1px solid #ffffff66;border-radius:10px}.v-stage-hint{font-size:8px}.v-browser span{text-decoration:none}.v-device-main{text-decoration:none}
 @media(max-width:760px){.v-outline{-webkit-text-stroke:0;color:#8e997d}.v-stage-label{padding:6px 10px;bottom:12px}.v-stage-tag{display:none}.v-intro h1{font-size:clamp(41px,11.2vw,68px)}.v-cta h2 span{-webkit-text-stroke:0}.v-tech-art img{height:auto}}
+
+/* G mark replaces the star symbol */
+.v-g{display:inline-block;line-height:0;font-size:0;animation:gmGFloat 5s ease-in-out infinite!important}
+.v-star.v-g{top:-46px}
+.v-star.v-g img{width:70px;height:auto;display:block}
+.v-mini-star.v-g img{width:64px;height:auto;display:block}
+@media (max-width:760px){.v-star.v-g img{width:50px}.v-mini-star.v-g img{width:46px}}
+@keyframes gmGFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){.v-g{animation:none!important}}
+
+/* G mark used in place of star symbols */
+.gm-g{display:inline-block;width:.9em;height:.85em;background:url(../img/intro/g-mark.webp) center/contain no-repeat;vertical-align:-.08em;font-style:normal}
+.gm-g.l{background-image:url(../img/intro/g-mark-light.webp)}
+.gm-chip i .gm-g{width:18px;height:17px;background:url(../img/intro/g-mark.webp) center/contain no-repeat;border-radius:0;display:block}
+.v-art-pill .gm-g{width:14px;height:13px;margin-inline-end:4px}

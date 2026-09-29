@@ -107,7 +107,7 @@ html.gm-still .gm-cover-copy>*,html.gm-still .gm-cover-chips,html.gm-still .v-to
 .gm-ticker{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.14);background:rgba(19,22,17,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);overflow:hidden;padding:15px 0;direction:ltr}
 .gm-ticker-track{display:flex;width:max-content;animation:gmTicker 45s linear infinite}
 .gm-ticker span{display:inline-flex;align-items:center;gap:26px;padding-inline-end:26px;font-weight:800;font-size:15px;color:rgba(255,255,255,.88);white-space:nowrap}
-.gm-ticker span::after{content:"✳";color:var(--lime,#c5f65a);font-size:16px}
+.gm-ticker span::after{content:"";width:18px;height:17px;background:url(../img/intro/g-mark-light.webp) center/contain no-repeat;flex:none}
 @keyframes gmTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* screens variant: scrolling design columns */
