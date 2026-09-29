@@ -4,6 +4,7 @@
 var FORM_ENDPOINT = "https://formsubmit.co/ajax/tahamahm3@gmail.com";
 
 // شعارات شركاء النجاح (الملفات في /assets/img/partners/)
+var ASSET_BASE = new URL("../img/partners/", document.currentScript.src).href;
 var PARTNERS = [
   ["شمو للاستثمار","p01"],["SQC","p02"],["عباقر للصناعة والاستثمار","p03"],["مجموعة بن لادن العالمية القابضة","p04"],
   ["جمعية واعي","p05"],["كلين لايف","p06"],["شركة الخليج للتموين","p07"],["بن شيهون","p08"],
@@ -31,7 +32,7 @@ function track(obj){ try { window.dataLayer.push(obj); } catch(e){} }
   var track_ = document.getElementById("partnersTrack");
   if (track_){
     var html = PARTNERS.map(function(p){
-      return '<div class="partner"><img src="/assets/img/partners/'+p[1]+'.webp" alt="'+p[0]+'" loading="lazy" width="180" height="80"></div>';
+      return '<div class="partner"><img src="'+ASSET_BASE+p[1]+'.webp" alt="'+p[0]+'" loading="lazy" width="180" height="80"></div>';
     }).join("");
     track_.innerHTML = html + html.replace(/<div class="partner"><img /g,'<div class="partner" aria-hidden="true"><img ');
   }
