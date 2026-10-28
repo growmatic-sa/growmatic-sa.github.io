@@ -6,6 +6,12 @@ AddDefaultCharset UTF-8
 
 RewriteEngine On
 
+# MAINTENANCE MODE: site closed (remove this block to reopen)
+RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+RewriteRule ^ - [R=503,L]
+ErrorDocument 503 /maintenance.html
+Header always set Retry-After "86400"
+
 # Block repository metadata
 RewriteRule (^|/)\.git(/|$) - [F,L]
 
