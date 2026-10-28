@@ -1,0 +1,54 @@
+name: Deploy to Hostinger + IndexNow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Pull latest commit on Hostinger
+        if: ${{ env.SSH_KEY != '' }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p 65002 89.117.169.194 >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -p 65002 -i ~/.ssh/id_ed25519 u449806353@89.117.169.194 \
+            'cd ~/domains/gorwmatic.io/public_html && git fetch -q origin main && git reset -q --hard origin/main && git log --oneline -1'
+
+      - name: Check the live site responds
+        run: |
+          sleep 5
+          curl -fsS -o /dev/null -w "home: %{http_code}\n" https://gorwmatic.io/
+
+      - name: Notify search engines (IndexNow)
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, urllib.request
+          from urllib.parse import quote
+          files = subprocess.run(["git", "diff", "--name-only", "HEAD~1", "HEAD"], capture_output=True, text=True).stdout.split()
+          urls = []
+          for f in files:
+              if not f.endswith(".html") or f.startswith(("tools/", "_posts/", "404", "google")):
+                  continue
+              d = f.rsplit("/", 1)[0] if "/" in f else ""
+              urls.append("https://gorwmatic.io" + quote("/" + d + "/" if d else "/"))
+          if "sitemap.xml" in files or not urls:
+              urls.append("https://gorwmatic.io/sitemap.xml")
+          body = {"host": "gorwmatic.io", "key": "7da54d92019301266a996d8f19da9be3",
+                  "keyLocation": "https://gorwmatic.io/7da54d92019301266a996d8f19da9be3.txt", "urlList": sorted(set(urls))[:10000]}
+          req = urllib.request.Request("https://api.indexnow.org/indexnow", json.dumps(body).encode(),
+                                       {"Content-Type": "application/json; charset=utf-8"})
+          print(len(body["urlList"]), "urls ->", urllib.request.urlopen(req).status)
+          PY
