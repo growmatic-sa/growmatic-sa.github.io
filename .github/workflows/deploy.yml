@@ -37,7 +37,7 @@ jobs:
           python3 - <<'PY'
           import json, subprocess, urllib.request
           from urllib.parse import quote
-          files = subprocess.run(["git", "diff", "--name-only", "HEAD~1", "HEAD"], capture_output=True, text=True).stdout.split()
+          files = subprocess.run(["git", "-c", "core.quotepath=off", "diff", "--name-only", "HEAD~1", "HEAD"], capture_output=True, text=True).stdout.split()
           urls = []
           for f in files:
               if not f.endswith(".html") or f.startswith(("tools/", "_posts/", "404", "google")):
